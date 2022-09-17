@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Mobile E-Charging Plant
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <app-map [isPlantRequested]="isPlantRequested"
+    [destination]="destination"></app-map>
+  </div>
+  <div class="bottom request-controls">
+    <ion-row class="request-button">
+      <ion-col>
+        <button [hidden]="isPlantRequested" (click)="confirmPlantRequest()">Request Plant</button>
+        <button [hidden]="!isPlantRequested" (click)="cancelPlantRequest()">Cancel Plant</button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="row-time" *ngIf="isPlantRequested">
+      <ion-col>
+        REACHING TIME IS APPROXIMATELY {{timeTillArrival}} MIN
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

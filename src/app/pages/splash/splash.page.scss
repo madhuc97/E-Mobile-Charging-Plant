@@ -1,0 +1,47 @@
+ion-content{
+    --background:#31dd50;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+  
+#container{   
+    position: relative;
+    text-align: center;
+    align-items: center;
+    top: 40%;
+}
+
+.title {
+    -webkit-animation: scale-in-center 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-in-center 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    color: white;
+    font-size: 40px;
+    font-weight: 400;
+}
+
+@-webkit-keyframes scale-in-center {
+    0% {
+      -webkit-transform: scale(0);
+              transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      opacity: 1;
+    }
+}
+
+@keyframes scale-in-center {
+    0% {
+      -webkit-transform: scale(0);
+              transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      opacity: 1;
+    }
+}
