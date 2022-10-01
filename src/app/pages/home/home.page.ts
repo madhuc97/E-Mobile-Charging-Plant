@@ -9,10 +9,11 @@ import { PickupPubSub } from '../../service/pickup-pub-sub';
 
 export class HomePage {
   public isPlantRequested: boolean = false;
-  public timeTillArrival: string = '5';
   public isRiderPickedUp: boolean;
   public pickupSubscription: any;
   public destination: string;
+  public timeTillArrival: string = '5';
+  public distance: string = '10 KM' 
 
   constructor(private pickupPubSub: PickupPubSub) {
     this.isPlantRequested = false;

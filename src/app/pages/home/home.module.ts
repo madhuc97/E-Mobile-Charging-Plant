@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { MapComponent } from '../../components/map/map.component';
 import { PlantsComponent } from '../../components/plants/plants.component'
-import { PlantServiceService } from '../../service/plant-service.service';
+import { PlantService } from '../../service/plant.service';
 import { PickupPubSub } from '../../service/pickup-pub-sub';
 import { SimulateService } from 'src/app/service/simulate';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 @NgModule({
   imports: [
@@ -16,6 +17,8 @@ import { SimulateService } from 'src/app/service/simulate';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
+    ReactiveFormsModule,
+    NgxIntlTelInputModule,
   ],
   declarations: [
     HomePage,
@@ -23,7 +26,7 @@ import { SimulateService } from 'src/app/service/simulate';
     PlantsComponent
   ],
   providers: [
-    PlantServiceService,
+    PlantService,
     PickupPubSub,
     SimulateService
   ]

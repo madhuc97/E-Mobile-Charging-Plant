@@ -13,7 +13,7 @@ export interface Plant {
   providedIn: 'root'
 })
 
-export class PlantServiceService {
+export class PlantService {
   public plants: Plant[] = [
     {
       id: 1,
@@ -27,6 +27,20 @@ export class PlantServiceService {
       coord: {
         lat: 13.934304,
         lng: 75.545169
+      }
+    },
+    {
+      id: 3,
+      coord: {
+        lat: 13.904304,
+        lng: 75.545069
+      }
+    },
+    {
+      id: 4,
+      coord: {
+        lat: 13.914304,
+        lng: 75.582969
       }
     }
   ];

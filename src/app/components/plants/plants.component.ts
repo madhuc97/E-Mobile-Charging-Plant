@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Plant, PlantServiceService } from 'src/app/service/plant-service.service';
+import { Plant, PlantService,  } from 'src/app/service/plant.service';
 
 @Component({
   selector: 'app-plants',
@@ -12,7 +12,7 @@ export class PlantsComponent implements OnInit {
   public plantMarkers: Array<google.maps.Marker> = [];
   public plantData: Plant[] = [];
 
-  constructor(private plantService: PlantServiceService) {
+  constructor(private plantService: PlantService) {
   }
 
   ngOnInit() {

@@ -80,36 +80,33 @@ export class SimulateService {
   }
   
   calculateRoute(start, end) {
-    
     return Observable.create(observable => {
-      
       this.directionsService.route({
         origin: start,
         destination: end,
         travelMode: google.maps.TravelMode.DRIVING
       }, (response, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
+        // if (status === ) {
           observable.next(response);
-        }
-        else {
-          observable.error(status);
-        }
+          console.log(response);
+          
+        //}
+        // else {
+        //   observable.error(status);
+        // }
       })
     });
   }
   
-  simulateRoute(start, end) {
-    
-    return Observable.create(observable => {
+  simulateRoute(start, end) {  
       this.calculateRoute(start, end).subscribe(directions => {
         // get route path
         this.myRoute = this.getSegmentedDirections(directions);
         // return pickup car
         this.getPickupCar().subscribe(car => {
-          observable.next(car); // first increment in car path
+          console.log(car); // first increment in car path
         })
-      })
-    });
+      });
   }
   
   findPickupCar(pickupLocation) {

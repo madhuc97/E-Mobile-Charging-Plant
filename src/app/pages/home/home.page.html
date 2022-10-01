@@ -12,15 +12,20 @@
     [destination]="destination"></app-map>
   </div>
   <div class="bottom request-controls">
+    <ion-row class="plant-details" *ngIf="isPlantRequested">
+      <ion-col>
+        DISTANCE FROM YOUR LOCATION: {{distance}}
+      </ion-col>
+    </ion-row>
+    <ion-row class="plant-details" *ngIf="isPlantRequested">
+      <ion-col>
+        REACHING TIME IS APPROXIMATELY {{timeTillArrival}} MIN
+      </ion-col>
+    </ion-row>
     <ion-row class="request-button">
       <ion-col>
         <button [hidden]="isPlantRequested" (click)="confirmPlantRequest()">Request Plant</button>
-        <button [hidden]="!isPlantRequested" (click)="cancelPlantRequest()">Cancel Plant</button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="row-time" *ngIf="isPlantRequested">
-      <ion-col>
-        REACHING TIME IS APPROXIMATELY {{timeTillArrival}} MIN
+        <button [hidden]="!isPlantRequested" (click)="cancelPlantRequest()">Book Plant</button>
       </ion-col>
     </ion-row>
   </div>
