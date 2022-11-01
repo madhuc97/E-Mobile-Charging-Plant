@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PickupPubSub } from '../../service/pickup-pub-sub';
 
 @Component({
@@ -15,7 +16,7 @@ export class HomePage {
   public timeTillArrival: string = '5';
   public distance: string = '10 KM' 
 
-  constructor(private pickupPubSub: PickupPubSub) {
+  constructor(private pickupPubSub: PickupPubSub, private router: Router) {
     this.isPlantRequested = false;
       this.isRiderPickedUp = false;
       this.pickupSubscription = this.pickupPubSub.watch().subscribe(e => {
@@ -63,5 +64,6 @@ export class HomePage {
 
   cancelPlantRequest() {
     this.isPlantRequested = false;
+    this.router.navigateByUrl('otp-validation');
   }
 }

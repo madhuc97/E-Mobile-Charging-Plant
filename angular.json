@@ -30,7 +30,7 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/theme/variables.scss", "src/global.scss", "./node_modules/intl-tel-input/build/css/intlTelInput.css"],
+            "styles": ["src/theme/variables.scss", "src/global.scss", {"input": "node_modules/flag-icon-css/sass/flag-icon.scss"}],
             "scripts": [],
             "aot": false,
             "vendorChunk": true,
@@ -141,7 +141,31 @@
               "devServerTarget": "app:serve:ci"
             }
           }
+        },
+        "ionic-cordova-build": {
+      "builder": "@ionic/cordova-builders:cordova-build",
+      "options": {
+        "browserTarget": "app:build"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "app:build:production"
         }
+      }
+    },
+    "ionic-cordova-serve": {
+      "builder": "@ionic/cordova-builders:cordova-serve",
+      "options": {
+        "cordovaBuildTarget": "app:ionic-cordova-build",
+        "devServerTarget": "app:serve"
+      },
+      "configurations": {
+        "production": {
+          "cordovaBuildTarget": "app:ionic-cordova-build:production",
+          "devServerTarget": "app:serve:production"
+        }
+      }
+    }
       }
     }
   },

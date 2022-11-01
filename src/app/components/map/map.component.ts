@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { } from 'google-maps';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation';
 import { LoadingController } from '@ionic/angular';
@@ -28,7 +28,7 @@ export class MapComponent implements OnInit, OnChanges {
     private simulate: SimulateService, private router: Router) { }
 
   ngOnInit() {
-    //this.map = this.createMap(this.location);
+    this.map = this.createMap(this.location);
     this.getCurrentLocation().subscribe(location => {
       this.createMap(location);
     });
