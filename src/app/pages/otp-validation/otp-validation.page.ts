@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-otp-validation',
@@ -7,24 +6,17 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./otp-validation.page.scss'],
 })
 export class OtpValidationPage implements OnInit {
-  form: FormGroup;
-  formValue = {phoneNumber: {}};
+  public otp: string = '';
 
   constructor() { }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      phoneNumber: new FormControl({
-        value: this.formValue.phoneNumber,
-        disabled: false
-      })
-    });
   }
 
-  get phoneNumber() { return this.form.get('phoneNumber'); }
-
-  onSubmit() {
-    console.log(this.phoneNumber.value);
+  onOtpChange(otpNo) {
+    this.otp = otpNo;
+    console.log(this.otp);
+    
   }
 
 }

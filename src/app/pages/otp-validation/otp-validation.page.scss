@@ -1,16 +1,17 @@
-.mobileNoDesc {
-    margin: 15px;
-}
-
-.mobileNo {
+.otpNo {
     margin-top: 20px;
 }
 
-.mobileNo ion-label {
-    margin-bottom: 5px;
-    font-size: 20px;
+.otpNoDesc {
+    margin: 15px;
+    text-align: center;
 }
 
+.optInput {
+    padding: 20px;
+    align-items: center;
+    text-align: center;
+}
 .sendButton {
     margin-top: 20px;
     text-align: center;

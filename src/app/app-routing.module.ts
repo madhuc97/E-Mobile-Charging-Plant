@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
   },
   {
+    path: 'mobile-no-input',
+    loadChildren: () => import('./pages/mobile-no-input/mobile-no-input.module').then( m => m.MobileNoInputPageModule)
+  },
+  {
     path: 'otp-validation',
     loadChildren: () => import('./pages/otp-validation/otp-validation.module').then( m => m.OtpValidationPageModule)
   }

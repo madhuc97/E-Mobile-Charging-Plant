@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 
 export class MapComponent implements OnInit, OnChanges {
-  public map: any;
+  public map: google.maps.Map;
   public location = new google.maps.LatLng(14.949798, 74.576435);
   public marker: google.maps.Marker;
   public plantMarker: google.maps.Marker;
@@ -28,7 +28,7 @@ export class MapComponent implements OnInit, OnChanges {
     private simulate: SimulateService, private router: Router) { }
 
   ngOnInit() {
-    this.map = this.createMap(this.location);
+    //this.map = this.createMap(this.location);
     this.getCurrentLocation().subscribe(location => {
       this.createMap(location);
     });
@@ -54,6 +54,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.plantMarkers.forEach(element => {
       bounds.extend(element.getPosition());
     });
+    bounds.extend(this.marker.getPosition());
     map.fitBounds(bounds);
     return map;
   }
@@ -65,6 +66,7 @@ export class MapComponent implements OnInit, OnChanges {
       title: 'You are here',
       icon: '../../../assets/locator.png'
     });
+    return this.marker;
   }
 
   getCurrentLocation(): Observable<google.maps.LatLng> {
@@ -72,8 +74,7 @@ export class MapComponent implements OnInit, OnChanges {
       message: 'Locating...'
     });
     let options = { timeout: 10000, enableHighAccuracy: true };
-    let location: Observable<google.maps.LatLng> = Observable.create(async observable => {
-      (await loading).present();
+    let location: Observable<google.maps.LatLng> = new Observable(observable => {
       Geolocation.getCurrentPosition(options)
         .then(async resp => {
           let lat = resp.coords.latitude;
@@ -82,8 +83,23 @@ export class MapComponent implements OnInit, OnChanges {
           observable.next(location);
           (await loading).dismiss();
         },
-          async (err) => {
+          async (error) => {
             (await loading).dismiss();
+              console.error('locaion disabled' + error);
+              this.createMap(this.location);
+              // if (error.PERMISSION_DENIED) {
+              //   handleLocationError(true, infoWindow, map.getCenter()!);
+              //   this.toastr.error("Couldn't get your location", 'Permission denied');
+              // } else if (error.POSITION_UNAVAILABLE) {
+              //   this.toastr.error(
+              //     "Couldn't get your location",
+              //     'Position unavailable'
+              //   );
+              // } else if (error.TIMEOUT) {
+              //   this.toastr.error("Couldn't get your location", 'Timed out');
+              // } else {
+              //   this.toastr.error(error.message, `Error: ${error.code}`);
+              // }      
           })
     })
     return location;

@@ -64,6 +64,6 @@ export class HomePage {
 
   cancelPlantRequest() {
     this.isPlantRequested = false;
-    this.router.navigateByUrl('otp-validation');
+    this.router.navigateByUrl('mobile-no-input');
   }
 }

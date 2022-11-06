@@ -28,6 +28,7 @@
     "google-libphonenumber": "^3.2.31",
     "ion-intl-tel-input": "^1.0.5",
     "ionic-selectable": "^4.9.0",
+    "ng-otp-input": "^1.8.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "typings": "^2.1.1",
