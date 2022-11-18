@@ -9,13 +9,17 @@ import { PlantsComponent } from '../../components/plants/plants.component'
 import { PlantService } from '../../service/plant.service';
 import { PickupPubSub } from '../../service/pickup-pub-sub';
 import { SimulateService } from 'src/app/service/simulate';
+//import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+//import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    //AndroidPermissions,
+    //LocationAccuracy
   ],
   declarations: [
     HomePage,

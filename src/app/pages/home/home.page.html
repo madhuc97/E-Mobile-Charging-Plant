@@ -8,10 +8,9 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <app-map [isPlantRequested]="isPlantRequested"
-    [destination]="destination"></app-map>
+    <app-map [isPlantRequested]="isPlantRequested" [destination]="destination"></app-map>
   </div>
-  <div class="bottom request-controls">
+  <div *ngIf="locationEnabled" class="bottom request-controls">
     <ion-row class="plant-details" *ngIf="isPlantRequested">
       <ion-col>
         DISTANCE FROM YOUR LOCATION: {{distance}}

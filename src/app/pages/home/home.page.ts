@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PlantService } from 'src/app/service/plant.service';
 import { PickupPubSub } from '../../service/pickup-pub-sub';
 
 @Component({
@@ -8,20 +9,28 @@ import { PickupPubSub } from '../../service/pickup-pub-sub';
   styleUrls: ['home.page.scss'],
 })
 
-export class HomePage {
+export class HomePage implements OnInit{
   public isPlantRequested: boolean = false;
+  public locationEnabled: boolean = true;
   public isRiderPickedUp: boolean;
   public pickupSubscription: any;
   public destination: string;
   public timeTillArrival: string = '5';
   public distance: string = '10 KM' 
 
-  constructor(private pickupPubSub: PickupPubSub, private router: Router) {
+  constructor(private pickupPubSub: PickupPubSub, private router: Router, private plantService: PlantService) {
     this.isPlantRequested = false;
       this.isRiderPickedUp = false;
       this.pickupSubscription = this.pickupPubSub.watch().subscribe(e => {
         this.processPickupSubscription(e);
       })
+  }
+
+  ngOnInit(): void {
+    this.plantService.getLocationEnabled().subscribe(data =>
+      this.locationEnabled = data
+    );
+    console.log(this.isPlantRequested);
   }
 
   processPickupSubscription(e) {
@@ -66,4 +75,5 @@ export class HomePage {
     this.isPlantRequested = false;
     this.router.navigateByUrl('mobile-no-input');
   }
+
 }

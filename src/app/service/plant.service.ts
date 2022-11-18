@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Plant {
   id: number;
@@ -14,6 +14,7 @@ export interface Plant {
 })
 
 export class PlantService {
+  public locationEnabled = new BehaviorSubject<boolean>(true);  
   public plants: Plant[] = [
     {
       id: 1,
@@ -44,7 +45,6 @@ export class PlantService {
       }
     }
   ];
-  private carIndex: number = 0;
 
   constructor(
     
@@ -52,10 +52,17 @@ export class PlantService {
 
   getPlants(): Observable<Plant[]> {
     let plantData = this.plants;
-    
-    return Observable.create(
+    return new Observable(
       observer => observer.next(plantData)
     );
+  }
+
+  getLocationEnabled(): Observable<boolean> {
+    return this.locationEnabled;
+  }
+
+  setLocationEnabled(location) {
+    return this.locationEnabled.next(location);
   }
 
 }

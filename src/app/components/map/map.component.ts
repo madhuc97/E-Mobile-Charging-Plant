@@ -1,11 +1,14 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { } from 'google-maps';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Plant, PlantService } from 'src/app/service/plant.service';
 import { SimulateService } from 'src/app/service/simulate';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
 
 @Component({
   selector: 'app-map',
@@ -25,7 +28,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() destination: string;
 
   constructor(private loadingCtrl: LoadingController, private plantService: PlantService,
-    private simulate: SimulateService, private router: Router) { }
+    private simulate: SimulateService, private router: Router, private alertController: AlertController,
+    private androidPermissions: AndroidPermissions, private locationAccuracy: LocationAccuracy) { }
 
   ngOnInit() {
     //this.map = this.createMap(this.location);
@@ -34,8 +38,52 @@ export class MapComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(): void {
-    this.requestPlant(this.map);
+  ngOnChanges(change: SimpleChanges) {
+    if (change.isPlantRequested.currentValue === true) {
+      this.requestPlant(this.map);
+    }
+    return change;
+  }
+
+  chckAppGpsPermission() {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(
+      result => {
+        if (result.hasPermission) {
+          this.requestToSwitchOnGPS();
+        } else {
+          this.askGPSPermission();
+        }
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+  
+  askGPSPermission() {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+      } else {
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(
+            () => {
+              this.requestToSwitchOnGPS();
+            },
+            error => {
+              alert(error)
+            }
+          );
+      }
+    });
+  }
+
+  requestToSwitchOnGPS() {
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+      () => {
+        this.getCurrentLocation()
+      },
+      error => alert(JSON.stringify(error))
+    );
   }
 
   createMap(location: google.maps.LatLng): Observable<google.maps.Map> {
@@ -51,10 +99,17 @@ export class MapComponent implements OnInit, OnChanges {
     this.setCurrentLocationMarker(map, location)
     this.fetchAndRefreshPlants(map);
     let bounds = new google.maps.LatLngBounds();
-    this.plantMarkers.forEach(element => {
+    if (location !== this.location) {
+      bounds.extend(this.marker.getPosition());
+      let sortPlants = this.plantMarkers.sort();
+      sortPlants.slice(0, 2).forEach(element => {
+        bounds.extend(element.getPosition());
+      });
+    } else {
+      this.plantMarkers.slice(0, 5).forEach(element => {
       bounds.extend(element.getPosition());
-    });
-    bounds.extend(this.marker.getPosition());
+      });
+    }
     map.fitBounds(bounds);
     return map;
   }
@@ -87,19 +142,15 @@ export class MapComponent implements OnInit, OnChanges {
             (await loading).dismiss();
               console.error('locaion disabled' + error);
               this.createMap(this.location);
-              // if (error.PERMISSION_DENIED) {
-              //   handleLocationError(true, infoWindow, map.getCenter()!);
-              //   this.toastr.error("Couldn't get your location", 'Permission denied');
-              // } else if (error.POSITION_UNAVAILABLE) {
-              //   this.toastr.error(
-              //     "Couldn't get your location",
-              //     'Position unavailable'
-              //   );
-              // } else if (error.TIMEOUT) {
-              //   this.toastr.error("Couldn't get your location", 'Timed out');
-              // } else {
-              //   this.toastr.error(error.message, `Error: ${error.code}`);
-              // }      
+              this.marker.setMap(null);
+              this.plantService.setLocationEnabled(false);
+              // this.locationEnabled.emit(true);
+              if (error.PERMISSION_DENIED) {
+                this.presentAlert();
+              } else if (error.POSITION_UNAVAILABLE) {
+              } else if (error.TIMEOUT) {
+              } else {
+              }      
           })
     })
     return location;
@@ -211,5 +262,30 @@ export class MapComponent implements OnInit, OnChanges {
   //     onChangeHandler
   //   );
   // }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alert!',
+      message: 'This is an alert!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          // handler: () => {
+          //   this.handlerMessage = 'Alert canceled';
+          // },
+        },
+        {
+          text: 'OK',
+          role: 'confirm',
+          // handler: () => {
+          //   this.handlerMessage = 'Alert confirmed';
+          // },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
 
 }
