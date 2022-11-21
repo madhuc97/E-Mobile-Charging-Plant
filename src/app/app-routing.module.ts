@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'otp-validation',
     loadChildren: () => import('./pages/otp-validation/otp-validation.module').then( m => m.OtpValidationPageModule)
+  },
+  {
+    path: 'checkout-description',
+    loadChildren: () => import('./pages/checkout-description/checkout-description.module').then( m => m.CheckoutDescriptionPageModule)
   }
 ];
 

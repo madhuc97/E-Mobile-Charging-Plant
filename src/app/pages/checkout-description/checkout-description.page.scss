@@ -1,0 +1,47 @@
+.status-section {
+    margin-top: 20px;
+    padding: 5px;
+    text-align: center;
+}
+
+.status-section ion-icon {
+    font-size: 40px;
+    color: green;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.driver-section {
+    padding: 5px;
+}
+
+.driver-section h5{
+    display: flex;
+    align-items: center;
+}
+
+.driver-section span{
+    padding: 5px;
+}
+
+.driver-section ion-icon {
+    font-size: 20px;
+    color: gold;
+}
+
+.payment-section h4{
+    font-size: 20px;
+}
+
+.payment-description {
+    display: flex;
+    padding: 5px;
+}
+
+.proceedButton {
+    margin-top: 20px;
+    text-align: center;
+}

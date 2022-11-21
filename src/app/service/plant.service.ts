@@ -1,5 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 export interface Plant {
   id: number;
@@ -14,7 +16,15 @@ export interface Plant {
 })
 
 export class PlantService {
-  public locationEnabled = new BehaviorSubject<boolean>(true);  
+  public locationEnabled = new BehaviorSubject<boolean>(true);
+  public httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Origin': '*'
+    })
+  };
   public plants: Plant[] = [
     {
       id: 1,
@@ -47,7 +57,7 @@ export class PlantService {
   ];
 
   constructor(
-    
+    private http: HttpClient
   ) { }
 
   getPlants(): Observable<Plant[]> {
@@ -65,4 +75,13 @@ export class PlantService {
     return this.locationEnabled.next(location);
   }
 
+  getCheckout(body): Observable<any> {
+   return this.http.post('http://localhost:3000/checkout', body).pipe(
+    map(res => {
+      return res;
+   }), catchError(err => {
+      return throwError(err) 
+    
+   }));
+  }
 }

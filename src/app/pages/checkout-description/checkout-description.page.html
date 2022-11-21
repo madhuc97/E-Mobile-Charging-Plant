@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Checkout Summary</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="status-section">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      <h4>Your request has been Accepted by our plant driver</h4>
+    </div>
+    <div class="driver-section">
+      <h5><span><ion-icon style="color: green;font-size: 20px;margin-top: 3px;" name="person-circle"></ion-icon></span>I am Madhu, Your plant driver<span><ion-icon *ngFor="let n of ratingRange;" name="star"></ion-icon></span></h5>
+      <p>Completed 10 succussive services.</p>
+    </div>
+    <div class="payment-section">
+      <ion-item>
+        <ion-label><h4>Payment Summary</h4></ion-label>
+      </ion-item>
+      <div class="payment-description">
+        <div>
+          <p>Transportation charge to reach at your destination is </p>
+        </div>
+        <div>
+          <p>Rs.500</p>
+        </div>
+      </div>
+      <p>Note: Vehicle charging price is seperate.</p>
+    </div>
+    <div class="proceedButton">
+      <ion-button type="submit" color="success" (click)="goToCheckoutUrl()">Proceed to Book</ion-button>
+    </div>
+  </div>
+</ion-content>
