@@ -8,7 +8,14 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <app-map [isPlantRequested]="isPlantRequested" [destination]="destination"></app-map>
+    <app-map #map [isPlantRequested]="isPlantRequested" [destination]="destination"></app-map>
+  </div>
+  <div class="locator">
+    <ion-fab #locator [style.marginBottom]="locatorHeight" vertical="bottom" horizontal="end">
+      <ion-fab-button (click)="refresh()">
+        <ion-icon name="navigate-circle-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </div>
   <div *ngIf="locationEnabled" class="bottom request-controls">
     <ion-row class="plant-details" *ngIf="isPlantRequested">

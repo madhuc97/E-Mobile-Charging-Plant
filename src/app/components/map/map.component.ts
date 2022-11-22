@@ -156,6 +156,17 @@ export class MapComponent implements OnInit, OnChanges {
     return location;
   }
 
+  centerLocation(location?) {
+    if (location) {
+      this.map.panTo(location);
+    } else {    
+      this.getCurrentLocation().subscribe(currentLocation => {
+        this.setCurrentLocationMarker(this.map, currentLocation);
+        this.map.panTo(currentLocation);
+      });
+    }
+  }
+
   fetchAndRefreshPlants(map: google.maps.Map) {
     let plantLocations: google.maps.LatLng;
     this.plantService.getPlants().subscribe(data => {

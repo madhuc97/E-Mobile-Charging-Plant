@@ -13,13 +13,14 @@ import { IonIntlTelInputModule } from 'ion-intl-tel-input';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
 import { PlantService } from './service/plant.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [ReactiveFormsModule, HttpClientModule,
     IonIntlTelInputModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AndroidPermissions, LocationAccuracy, PlantService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, InAppBrowser,
+    AndroidPermissions, LocationAccuracy, PlantService ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

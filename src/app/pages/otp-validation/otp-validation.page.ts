@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PlantService } from 'src/app/service/plant.service';
 
 @Component({
   selector: 'app-otp-validation',
@@ -16,7 +18,6 @@ export class OtpValidationPage implements OnInit {
   onOtpChange(otpNo) {
     this.otp = otpNo;
     console.log(this.otp);
-    
   }
 
 }

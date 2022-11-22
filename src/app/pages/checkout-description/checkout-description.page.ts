@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlantService } from 'src/app/service/plant.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-checkout-description',
@@ -10,7 +11,7 @@ export class CheckoutDescriptionPage implements OnInit {
   public ratingRange = [1, 2, 3, 4, 5];
   public rating: string = '4';
   public checkoutUrl: string = '';
-  constructor(private plantService: PlantService) { }
+  constructor(private plantService: PlantService, private inAppBrower: InAppBrowser) { }
 
   ngOnInit() {
     this.checkout();
@@ -43,7 +44,8 @@ export class CheckoutDescriptionPage implements OnInit {
   }
 
   goToCheckoutUrl() {
-    window.open(this.checkoutUrl, '_self');
+    const browser = this.inAppBrower.create(this.checkoutUrl, '_self')
+    //window.open(this.checkoutUrl, '_self');
   }
 
 }
