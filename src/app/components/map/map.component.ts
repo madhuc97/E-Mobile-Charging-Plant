@@ -19,6 +19,7 @@ import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx
 export class MapComponent implements OnInit, OnChanges {
   public map: google.maps.Map;
   public location = new google.maps.LatLng(14.949798, 74.576435);
+  public currentLocation: google.maps.LatLng;
   public marker: google.maps.Marker;
   public plantMarker: google.maps.Marker;
   public plantMarkers: Array<google.maps.Marker> = [];
@@ -135,6 +136,7 @@ export class MapComponent implements OnInit, OnChanges {
           let lat = resp.coords.latitude;
           let lng = resp.coords.longitude;
           let location = new google.maps.LatLng(lat, lng);
+          this.currentLocation = location;
           observable.next(location);
           (await loading).dismiss();
         },
@@ -146,7 +148,6 @@ export class MapComponent implements OnInit, OnChanges {
               this.plantService.setLocationEnabled(false);
               // this.locationEnabled.emit(true);
               if (error.PERMISSION_DENIED) {
-                this.presentAlert();
               } else if (error.POSITION_UNAVAILABLE) {
               } else if (error.TIMEOUT) {
               } else {
@@ -156,13 +157,14 @@ export class MapComponent implements OnInit, OnChanges {
     return location;
   }
 
-  centerLocation(location?) {
-    if (location) {
-      this.map.panTo(location);
+  centerLocation() {
+    if (this.currentLocation) {
+      this.map.panTo(this.currentLocation);
     } else {    
       this.getCurrentLocation().subscribe(currentLocation => {
-        this.setCurrentLocationMarker(this.map, currentLocation);
+        this.createMap(currentLocation);
         this.map.panTo(currentLocation);
+        this.plantService.setLocationEnabled(true);
       });
     }
   }
@@ -274,29 +276,5 @@ export class MapComponent implements OnInit, OnChanges {
   //   );
   // }
 
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Alert!',
-      message: 'This is an alert!',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          // handler: () => {
-          //   this.handlerMessage = 'Alert canceled';
-          // },
-        },
-        {
-          text: 'OK',
-          role: 'confirm',
-          // handler: () => {
-          //   this.handlerMessage = 'Alert confirmed';
-          // },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
 
 }
