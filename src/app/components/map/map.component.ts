@@ -148,6 +148,8 @@ export class MapComponent implements OnInit, OnChanges {
               this.plantService.setLocationEnabled(false);
               // this.locationEnabled.emit(true);
               if (error.PERMISSION_DENIED) {
+                this.chckAppGpsPermission();
+                //this.presentAlert();
               } else if (error.POSITION_UNAVAILABLE) {
               } else if (error.TIMEOUT) {
               } else {
