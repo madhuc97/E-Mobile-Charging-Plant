@@ -16,6 +16,7 @@ export interface Plant {
 })
 
 export class PlantService {
+  public baseUrl: string = 'https://shrouded-meadow-81145.herokuapp.com/';
   public locationEnabled = new BehaviorSubject<boolean>(true);
   public httpOptions = {
     headers: new HttpHeaders({
@@ -76,12 +77,16 @@ export class PlantService {
   }
 
   getCheckout(body): Observable<any> {
-   return this.http.post('http://localhost:3000/checkout', body).pipe(
+   return this.http.post(this.baseUrl + '/checkout', body).pipe(
     map(res => {
       return res;
    }), catchError(err => {
       return throwError(err) 
     
    }));
+  }
+
+  goToHome(id): Observable<any> {
+    return this.http.get(this.baseUrl + '/retrievecheckout/' + id);
   }
 }

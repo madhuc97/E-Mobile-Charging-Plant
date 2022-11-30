@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlantService } from 'src/app/service/plant.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout-description',
@@ -11,10 +12,12 @@ export class CheckoutDescriptionPage implements OnInit {
   public ratingRange = [1, 2, 3, 4, 5];
   public rating: string = '4';
   public checkoutUrl: string = '';
-  constructor(private plantService: PlantService, private inAppBrower: InAppBrowser) { }
+  constructor(private plantService: PlantService, private inAppBrower: InAppBrowser, private router: Router) { }
 
   ngOnInit() {
-    this.checkout();
+    //this.checkout();
+    //console.log(this.checkoutUrl);
+    
   }
 
   checkout() {
@@ -34,7 +37,19 @@ export class CheckoutDescriptionPage implements OnInit {
       expiration:"1671532380",
   };
     this.plantService.getCheckout(body).subscribe(res => {
-      this.checkoutUrl = res.body.data.redirect_url;
+      if (res.body.status.status === 'SUCCESS') {
+        this.checkoutUrl = res.body.data.redirect_url;
+
+        setTimeout(() => {
+          console.log(res.body.data.redirect_url);
+          this.inAppBrower.create(res.body.data.redirect_url, '_self').show();
+        }, 500);
+
+        this.plantService.goToHome(res.body.data.id).subscribe(data => {
+          if (data.body.data.payment.paid == true)
+          this.router.navigateByUrl('/home');  
+        });
+      }
       return res;
     }, err => {
       console.log(err);
@@ -44,8 +59,11 @@ export class CheckoutDescriptionPage implements OnInit {
   }
 
   goToCheckoutUrl() {
-    const browser = this.inAppBrower.create(this.checkoutUrl, '_self')
-    //window.open(this.checkoutUrl, '_self');
+    console.log(this.checkoutUrl);
+    
+    setTimeout(() => {
+      this.inAppBrower.create(this.checkoutUrl, '_self').show();
+    }, 300);
   }
 
 }
