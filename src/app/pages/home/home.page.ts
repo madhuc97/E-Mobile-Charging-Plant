@@ -2,7 +2,6 @@ import { Component, ElementRef, OnChanges, OnInit, Renderer2, ViewChild } from '
 import { Router } from '@angular/router';
 import { MapComponent } from 'src/app/components/map/map.component';
 import { PlantService } from 'src/app/service/plant.service';
-import { PickupPubSub } from '../../service/pickup-pub-sub';
 
 @Component({
   selector: 'app-home',
@@ -21,12 +20,9 @@ export class HomePage implements OnInit{
   public locatorHeight: string;
   @ViewChild('map') locator: MapComponent;
 
-  constructor(private pickupPubSub: PickupPubSub, private router: Router, private renderer: Renderer2, private plantService: PlantService) {
+  constructor(private router: Router, private renderer: Renderer2, private plantService: PlantService) {
     this.isPlantRequested = false;
       this.isRiderPickedUp = false;
-      this.pickupSubscription = this.pickupPubSub.watch().subscribe(e => {
-        this.processPickupSubscription(e);
-      })
   }
 
   ngOnInit(): void {
@@ -34,20 +30,6 @@ export class HomePage implements OnInit{
       this.locationEnabled = data
     );
     console.log(this.isPlantRequested);
-  }
-
-  processPickupSubscription(e) {
-    switch(e.event) {
-      case this.pickupPubSub.EVENTS.ARRIVAL_TIME:
-        this.updateArrivalTime(e.data);
-        break;
-      case this.pickupPubSub.EVENTS.PICKUP:
-        this.riderPickedUp();
-        break;
-      case this.pickupPubSub.EVENTS.DROPOFF:
-        this.riderDroppedOff();
-        break;
-    }
   }
   
   setDestination(destination) {
