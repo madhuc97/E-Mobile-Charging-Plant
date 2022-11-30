@@ -22,7 +22,7 @@
     "@angular/router": "^14.0.0",
     "@awesome-cordova-plugins/android-permissions": "^6.2.0",
     "@awesome-cordova-plugins/core": "^6.2.0",
-    "@awesome-cordova-plugins/geolocation": "^5.44.0",
+    "@awesome-cordova-plugins/geolocation": "^6.2.0",
     "@awesome-cordova-plugins/location-accuracy": "^6.2.0",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/in-app-browser": "^5.36.0",
