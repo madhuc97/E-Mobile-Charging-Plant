@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
+import { Component, Inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlantService } from 'src/app/service/plant.service';
 
@@ -7,12 +8,22 @@ import { PlantService } from 'src/app/service/plant.service';
   templateUrl: './otp-validation.page.html',
   styleUrls: ['./otp-validation.page.scss'],
 })
-export class OtpValidationPage implements OnInit {
+export class OtpValidationPage implements OnInit, OnChanges {
   public otp: string = '';
 
-  constructor() { }
+  constructor(private locationStrategy: LocationStrategy) { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.preventBackButton();
+  }
 
   ngOnInit() {
+  }
+
+  preventBackButton() {
+    history.pushState(null, '', location.href);
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, '', location.href);
+    })
   }
 
   onOtpChange(otpNo) {

@@ -32,7 +32,8 @@
       <p>Note: Vehicle charging price is seperate.</p>
     </div>
     <div class="proceedButton">
-      <ion-button type="submit" color="success" (click)="checkout()">Proceed to Book</ion-button>
+      <ion-button type="submit" color="success" *ngIf="!showLoader" (click)="checkout()">Proceed to Book</ion-button>
+      <ion-button type="submit" color="success" *ngIf="showLoader"><ion-spinner></ion-spinner></ion-button>
     </div>
   </div>
 </ion-content>

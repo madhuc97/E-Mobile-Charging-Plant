@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Payment Summary</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="status-section">
+      <div>
+        <ion-icon *ngIf="!paymentStatus" name="time-outline"></ion-icon>
+        <h4 *ngIf="!paymentStatus">Your Payment is proccessing...</h4>
+        <ion-icon *ngIf="paymentStatus" name="checkmark-circle"></ion-icon>
+        <h4 *ngIf="paymentStatus">Your Payment has been Succussfull.</h4>
+      </div>
+    </div>
+    <div class="status-section">
+      <p *ngIf="paymentStatus">Thank you for using our services. We are happy to see you again</p>
+      <p *ngIf="!paymentStatus">Plese wait we are fetching your payment details.</p>
+    </div>
+    <div class="proceedButton">
+      <ion-button type="submit" color="success" [disabled]="!paymentStatus" (click)="pushToNextScreenWithParams()">Done</ion-button>
+    </div>
+  </div>
+</ion-content>

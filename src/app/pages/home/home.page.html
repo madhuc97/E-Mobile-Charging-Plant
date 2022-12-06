@@ -8,7 +8,7 @@
 
 <ion-content [fullscreen]="true">
   <div id="container">
-    <app-map #map [isPlantRequested]="isPlantRequested" [destination]="destination"></app-map>
+    <app-map #map [isPlantRequested]="isPlantRequested" [isPlantBooked]="isPlantBooked"></app-map>
   </div>
   <div class="locator">
     <ion-fab #locator [style.marginBottom]="locatorHeight" vertical="bottom" horizontal="end">
@@ -28,10 +28,15 @@
         REACHING TIME IS APPROXIMATELY {{timeTillArrival}} MIN
       </ion-col>
     </ion-row>
-    <ion-row class="request-button">
+    <ion-row class="request-button" *ngIf="!isPlantBooked">
       <ion-col>
-        <button [hidden]="isPlantRequested" (click)="confirmPlantRequest()">Request Plant</button>
-        <button [hidden]="!isPlantRequested" (click)="cancelPlantRequest()">Book Plant</button>
+        <button [hidden]="isPlantRequested" (click)="confirmPlantRequest()">Request Nearest Plant</button>
+        <button [hidden]="!isPlantRequested" (click)="bookPlant()">Book Plant</button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="request-button" *ngIf="isPlantBooked">
+      <ion-col>
+        <button [hidden]="!isPlantBooked" (click)="cancelPlantRequest()">Cancel Book</button>
       </ion-col>
     </ion-row>
   </div>

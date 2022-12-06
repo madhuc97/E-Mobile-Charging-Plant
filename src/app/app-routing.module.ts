@@ -3,12 +3,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    path: '',
+    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
   },
   {
-    path: 'splash',
-    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
   {
     path: 'mobile-no-input',
@@ -21,7 +21,12 @@ const routes: Routes = [
   {
     path: 'checkout-description',
     loadChildren: () => import('./pages/checkout-description/checkout-description.module').then( m => m.CheckoutDescriptionPageModule)
+  },
+  {
+    path: 'payment-status/:id',
+    loadChildren: () => import('./pages/payment-status/payment-status.module').then( m => m.PaymentStatusPageModule)
   }
+
 ];
 
 @NgModule({

@@ -16,8 +16,9 @@ export interface Plant {
 })
 
 export class PlantService {
-  public baseUrl: string = 'https://shrouded-meadow-81145.herokuapp.com/';
+  public baseUrl: string = 'http://localhost:3000';
   public locationEnabled = new BehaviorSubject<boolean>(true);
+  public isPlantBooked = new BehaviorSubject<boolean>(false);
   public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -76,8 +77,16 @@ export class PlantService {
     return this.locationEnabled.next(location);
   }
 
+  getIsPlantBookked(): Observable<boolean> {
+    return this.isPlantBooked;
+  }
+
+  setIsPlantBookked(PlantBooked): void {
+    return this.isPlantBooked.next(PlantBooked);
+  }
+
   getCheckout(body): Observable<any> {
-   return this.http.post(this.baseUrl + '/checkout', body).pipe(
+   return this.http.post(this.baseUrl + '/checkout', this.httpOptions, body).pipe(
     map(res => {
       return res;
    }), catchError(err => {

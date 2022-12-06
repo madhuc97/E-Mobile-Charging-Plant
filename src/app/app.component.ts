@@ -10,7 +10,7 @@ import { Platform } from '@ionic/angular';
 export class AppComponent {
 
   constructor(private platform: Platform, public router:Router) {
-    this.initializeApp();
+    //this.initializeApp();
   }
   
   initializeApp() {

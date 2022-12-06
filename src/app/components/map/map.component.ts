@@ -5,10 +5,11 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Plant, PlantService } from 'src/app/service/plant.service';
 import { SimulateService } from 'src/app/service/simulate';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
+import { LocationStrategy } from '@angular/common';
 
 @Component({
   selector: 'app-map',
@@ -26,11 +27,13 @@ export class MapComponent implements OnInit, OnChanges {
   public plantData: Plant[] = [];
   public distances: number[] = [];
   @Input() isPlantRequested: boolean;
-  @Input() destination: string;
+  @Input() isPlantBooked: string;
 
   constructor(private loadingCtrl: LoadingController, private plantService: PlantService,
-    private simulate: SimulateService, private router: Router, private alertController: AlertController,
-    private androidPermissions: AndroidPermissions, private locationAccuracy: LocationAccuracy) { }
+    private simulate: SimulateService, private route: ActivatedRoute, private router: Router, private alertController: AlertController,
+    private androidPermissions: AndroidPermissions, private locationAccuracy: LocationAccuracy,
+    private locationStrategy: LocationStrategy) {
+    }
 
   ngOnInit() {
     //this.map = this.createMap(this.location);
@@ -42,8 +45,20 @@ export class MapComponent implements OnInit, OnChanges {
   ngOnChanges(change: SimpleChanges) {
     if (change.isPlantRequested.currentValue === true) {
       this.requestPlant(this.map);
-    }
-    return change;
+    }  
+    // this.route.queryParams.subscribe(_p => {
+    //   const navParams = this.router.getCurrentNavigation().extras.state
+    //   this.isPlantBooked = navParams.item;
+    //      console.log(this.isPlantBooked);
+    // })
+    this.preventBackButton();
+  }
+
+  preventBackButton() {
+    history.pushState(null, '', location.href);
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, '', location.href);
+    })
   }
 
   chckAppGpsPermission() {
@@ -97,7 +112,7 @@ export class MapComponent implements OnInit, OnChanges {
     let mapEl = document.getElementById('map');
     let map: any = new google.maps.Map(mapEl, mapOptions);
     this.map = map;
-    this.setCurrentLocationMarker(map, location)
+    this.setCurrentLocationMarker(map, location);
     this.fetchAndRefreshPlants(map);
     let bounds = new google.maps.LatLngBounds();
     if (location !== this.location) {
@@ -214,9 +229,9 @@ export class MapComponent implements OnInit, OnChanges {
             map: map,
             icon: '../../../assets/plant.png'
           });
-          //directionsRenderer.setMap(map);
-          //this.calculateAndDisplayRoute(directionsService, directionsRenderer, plantMkr);
-          //this.simulate.simulateRoute(this.marker.getPosition(), this.plantMarker.getPosition());
+          directionsRenderer.setMap(map);
+          this.calculateAndDisplayRoute(directionsService, directionsRenderer, plantMkr);
+          this.simulate.simulateRoute(this.marker.getPosition(), this.plantMarker.getPosition());
           console.log(this.plantMarkers);
           this.router.navigateByUrl('home');
           return plantMkr;
@@ -265,7 +280,7 @@ export class MapComponent implements OnInit, OnChanges {
   //   directionsRenderer.setMap(this.map);
 
   //   const onChangeHandler = function () {
-  //     calculateAndDisplayRoute(directionsService, directionsRenderer);
+  //     this.calculateAndDisplayRoute(directionsService, directionsRenderer);
   //   };
 
   //   (document.getElementById("start") as HTMLElement).addEventListener(

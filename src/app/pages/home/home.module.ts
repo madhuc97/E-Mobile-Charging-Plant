@@ -5,9 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { MapComponent } from '../../components/map/map.component';
-import { PlantsComponent } from '../../components/plants/plants.component'
 import { PlantService } from '../../service/plant.service';
-import { PickupPubSub } from '../../service/pickup-pub-sub';
 import { SimulateService } from 'src/app/service/simulate';
 //import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 //import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
@@ -23,12 +21,10 @@ import { SimulateService } from 'src/app/service/simulate';
   ],
   declarations: [
     HomePage,
-    MapComponent,
-    PlantsComponent
+    MapComponent
   ],
   providers: [
     PlantService,
-    PickupPubSub,
     SimulateService
   ]
 })

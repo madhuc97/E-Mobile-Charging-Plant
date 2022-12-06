@@ -28,7 +28,7 @@ export class SimulateService {
   // }
   
   getPickupCar() {
-    return Observable.create(observable => {
+    return new Observable(observable => {
       
       let car = this.myRoute[this.myRouteIndex];
       observable.next(car);
@@ -80,7 +80,7 @@ export class SimulateService {
   }
   
   calculateRoute(start, end) {
-    return Observable.create(observable => {
+    return new Observable(observable => {
       this.directionsService.route({
         origin: start,
         destination: end,
