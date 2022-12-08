@@ -16,7 +16,7 @@ export interface Plant {
 })
 
 export class PlantService {
-  public baseUrl: string = 'http://localhost:3000';
+  public baseUrl: string = 'https://e-mobile-charging-plant-nodejs.vercel.app';
   public locationEnabled = new BehaviorSubject<boolean>(true);
   public isPlantBooked = new BehaviorSubject<boolean>(false);
   public httpOptions = {
