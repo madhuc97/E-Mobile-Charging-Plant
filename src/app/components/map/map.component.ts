@@ -27,7 +27,7 @@ export class MapComponent implements OnInit, OnChanges {
   public plantData: Plant[] = [];
   public distances: number[] = [];
   @Input() isPlantRequested: boolean;
-  @Input() isPlantBooked: string;
+  @Input() isPlantBooked: boolean;
 
   constructor(private loadingCtrl: LoadingController, private plantService: PlantService,
     private simulate: SimulateService, private route: ActivatedRoute, private router: Router, private alertController: AlertController,
